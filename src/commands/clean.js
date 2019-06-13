@@ -1,13 +1,14 @@
+const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
 const executeShellCommands = require('../utilities/execute-shell-commands')
 const log = require('../utilities/log')
 
 const commands = [
-  'rm -rf build',
-  'find . -name .DS_Store -delete',
-  'find . -name .vscode -delete',
-  'find . -name *.js.map -delete',
-  'find . -name *.log -delete'
+  `rm -rf ${constants.buildDirectoryPath}`,
+  `find . -name .DS_Store -delete`,
+  `find . -name .vscode -delete`,
+  `find . -name *.js.map -delete`,
+  `find . -name *.log -delete`
 ]
 
 const clean = {

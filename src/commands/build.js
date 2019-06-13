@@ -1,13 +1,24 @@
+const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
 const executeShellCommands = require('../utilities/execute-shell-commands')
 const log = require('../utilities/log')
 
 const commands = {
-  css:
-    'mkdir -p build/css && tachyons src/css/style.css > build/css/style.css && purgecss --css build/css/style.css --content build/**/*.html --out build/css && csso --comments none --input build/css/style.css --output build/css/style.css',
-  html:
-    'html-minifier --input-dir src --file-ext html --output-dir build --collapse-whitespace --minify-css --minify-js --remove-comments --remove-redundant-attributes --remove-tag-whitespace',
-  images: "imagemin 'media/**/*.{gif,jpg,png}' --out-dir build/media"
+  css: `mkdir -p build/css && tachyons ${constants.css.inputFilePath} > ${
+    constants.css.outputFilePath
+  } && purgecss --css ${constants.css.outputFilePath} --content '${
+    constants.html.outputGlob
+  }' --out ${
+    constants.css.outputDirectoryPath
+  } && csso --comments none --input ${constants.css.outputFilePath} --output ${
+    constants.css.outputFilePath
+  }`,
+  html: `html-minifier --input-dir src --file-ext html --output-dir ${
+    constants.outputDirectoryPath
+  } --collapse-whitespace --minify-css --minify-js --remove-comments --remove-redundant-attributes --remove-tag-whitespace`,
+  images: `imagemin '${constants.images.inputGlob}' --out-dir ${
+    constants.images.outputDirectoryPath
+  }`
 }
 
 const build = {

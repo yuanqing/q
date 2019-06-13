@@ -1,9 +1,13 @@
+const path = require('path')
+
+const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
 const executeShellCommands = require('../utilities/execute-shell-commands')
 const log = require('../utilities/log')
 
+const stylelintrcPath = path.resolve(__dirname, '..', '.stylelintrc')
 const commands = {
-  css: `stylelint 'src/**/*.css'`
+  css: `stylelint '${constants.css.inputGlob}' --config ${stylelintrcPath}`
 }
 
 const lint = {

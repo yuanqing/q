@@ -1,8 +1,12 @@
+const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
 const executeShellCommands = require('../utilities/execute-shell-commands')
 const log = require('../utilities/log')
 
-const commands = ['http-server ./build', 'open-cli http://0.0.0.0:8080']
+const commands = [
+  `http-server ${constants.outputDirectoryPath}`,
+  'open-cli http://0.0.0.0:8080'
+]
 
 const serve = {
   command: 'serve',

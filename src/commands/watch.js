@@ -1,27 +1,28 @@
 const chokidar = require('chokidar')
 
-const commands = require('./build')
+const buildCommands = require('./build')
+const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
 const executeShellCommands = require('../utilities/execute-shell-commands')
 const log = require('../utilities/log')
 
 const specification = {
   css: {
-    directory: 'src/**/*.css',
-    command: commands.css
+    glob: constants.css.inputGlob,
+    command: buildCommands.css
   },
   html: {
-    directory: 'src/**/*.html',
-    command: commands.html
+    glob: constants.html.inputGlob,
+    command: buildCommands.html
   },
   images: {
-    directory: 'media/**/*.{gif,jpg,png}',
-    command: commands.images
+    glob: constants.images.inputGlob,
+    command: buildCommands.images
   }
 }
 
-function executeWatch ({ directory, command }) {
-  const watcher = chokidar.watch([directory])
+function executeWatch ({ glob, command }) {
+  const watcher = chokidar.watch([glob])
   watcher.on('change', async function () {
     await executeShellCommands([command]).catch(errorHandler)
   })

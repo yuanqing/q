@@ -3,8 +3,8 @@ const executeShellCommands = require('../utilities/execute-shell-commands')
 const log = require('../utilities/log')
 
 const commands = {
-  css: "prettier --write 'src/**/*.css'",
-  html: "prettier --write 'src/**/*.html'"
+  css: `prettier --write 'src/**/*.css'`,
+  html: `prettier --write 'src/**/*.html'`
 }
 
 const fix = {

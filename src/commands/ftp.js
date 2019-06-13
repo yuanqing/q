@@ -1,6 +1,7 @@
 const vinylFs = require('vinyl-fs')
 const VinylFtp = require('vinyl-ftp')
 
+const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
 const log = require('../utilities/log')
 
@@ -38,7 +39,10 @@ const ftp = {
       log: console.log
     })
     vinylFs
-      .src(['./build/**'], { base: './build', buffer: false })
+      .src([`${constants.outputDirectoryPath}/**`], {
+        base: `./${constants.outputDirectoryPath}`,
+        buffer: false
+      })
       .pipe(connection.dest(directory))
       .on('error', errorHandler)
     log.success('Uploaded')

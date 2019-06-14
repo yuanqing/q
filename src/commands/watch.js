@@ -24,7 +24,7 @@ const specification = {
   }
 }
 
-function executeWatch ({glob, command, options}) {
+function executeWatch ({ glob, command, options }) {
   async function build () {
     await executeShellCommand(command, options).catch(errorHandler)
   }

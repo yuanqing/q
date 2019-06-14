@@ -3,7 +3,7 @@ const errorHandler = require('../utilities/error-handler')
 const executeShellCommand = require('../utilities/execute-shell-command')
 const log = require('../utilities/log')
 
-const commands = [
+const shellCommands = [
   `rm -rf ${constants.buildDirectoryPath}`,
   `find . -name .DS_Store -delete`,
   `find . -name .vscode -delete`,
@@ -11,13 +11,13 @@ const commands = [
   `find . -name *.log -delete`
 ]
 
-const clean = {
+const command = {
   command: 'clean',
   handler: async function () {
     log.info('Cleaning…')
     await Promise.all(
-      commands.map(function (command) {
-        return executeShellCommand(command).catch(errorHandler)
+      shellCommands.map(function (shellCommand) {
+        return executeShellCommand(shellCommand).catch(errorHandler)
       })
     )
     log.success('Cleaned')
@@ -26,5 +26,5 @@ const clean = {
 }
 
 module.exports = {
-  clean
+  command
 }

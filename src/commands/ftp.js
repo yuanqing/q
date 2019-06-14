@@ -5,7 +5,7 @@ const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
 const log = require('../utilities/log')
 
-const ftp = {
+const command = {
   command: 'ftp',
   builder: function (yargs) {
     yargs.option('host', {
@@ -30,7 +30,7 @@ const ftp = {
     })
   },
   handler: async function ({ host, user, password, directory }) {
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
       log.info('Uploading…')
       const connection = new VinylFtp({
         host,
@@ -46,7 +46,7 @@ const ftp = {
         })
         .pipe(connection.dest(directory))
         .on('error', errorHandler)
-        .on('end', function() {
+        .on('end', function () {
           log.success('Uploaded')
           resolve()
         })
@@ -55,5 +55,5 @@ const ftp = {
 }
 
 module.exports = {
-  ftp
+  command
 }

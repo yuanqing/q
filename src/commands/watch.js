@@ -1,6 +1,6 @@
 const chokidar = require('chokidar')
 
-const buildCommands = require('./build').commands
+const shellCommands = require('./build').shellCommands
 const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
 const executeShellCommand = require('../utilities/execute-shell-command')
@@ -9,31 +9,31 @@ const log = require('../utilities/log')
 const specification = {
   css: {
     glob: [constants.css.inputGlob, constants.html.inputGlob],
-    command: buildCommands.css
+    shellCommand: shellCommands.css
   },
   html: {
     glob: [constants.css.inputGlob, constants.html.inputGlob],
-    command: buildCommands.html
+    shellCommand: shellCommands.html
   },
   images: {
     glob: [constants.images.inputGlob],
-    command: buildCommands.images,
+    shellCommand: shellCommands.images,
     options: {
       quiet: true
     }
   }
 }
 
-function executeWatch ({ glob, command, options }) {
+function executeWatch ({ glob, shellCommand, options }) {
   async function build () {
-    await executeShellCommand(command, options).catch(errorHandler)
+    await executeShellCommand(shellCommand, options).catch(errorHandler)
   }
   const watcher = chokidar.watch(glob)
   watcher.on('ready', build)
   watcher.on('change', build)
 }
 
-const watch = {
+const command = {
   command: 'watch [type]',
   builder: function (yargs) {
     yargs.positional('type', {
@@ -55,5 +55,5 @@ const watch = {
 }
 
 module.exports = {
-  watch
+  command
 }

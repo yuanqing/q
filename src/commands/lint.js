@@ -6,20 +6,20 @@ const executeShellCommand = require('../utilities/execute-shell-command')
 const log = require('../utilities/log')
 
 const stylelintrcPath = path.resolve(__dirname, '..', '.stylelintrc')
-const commands = {
+const shellCommands = {
   css: `stylelint '${constants.css.inputGlob}' --config ${stylelintrcPath}`
 }
 
-const lint = {
+const command = {
   command: 'lint',
   handler: async function () {
     log.info('Linting')
-    await executeShellCommand(commands.css).catch(errorHandler)
+    await executeShellCommand(shellCommands.css).catch(errorHandler)
     log.success('Linted')
     return Promise.resolve()
   }
 }
 
 module.exports = {
-  lint
+  command
 }

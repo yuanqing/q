@@ -3,7 +3,7 @@ const errorHandler = require('../utilities/error-handler')
 const executeShellCommand = require('../utilities/execute-shell-command')
 const log = require('../utilities/log')
 
-const commands = {
+const shellCommands = {
   css: `mkdir -p build/css && tachyons ${constants.css.inputFilePath} > ${
     constants.css.outputFilePath
   } && purgecss --css ${constants.css.outputFilePath} --content '${
@@ -21,7 +21,7 @@ const commands = {
   }`
 }
 
-const build = {
+const command = {
   command: 'build [type]',
   builder: function (yargs) {
     yargs.positional('type', {
@@ -32,17 +32,17 @@ const build = {
   handler: async function ({ type }) {
     log.info('Building…')
     if (typeof type === 'undefined') {
-      await executeShellCommand(commands.html, { quiet: true }).catch(
+      await executeShellCommand(shellCommands.html, { quiet: true }).catch(
         errorHandler
       )
-      await executeShellCommand(commands.css, { quiet: true }).catch(
+      await executeShellCommand(shellCommands.css, { quiet: true }).catch(
         errorHandler
       )
-      await executeShellCommand(commands.images, { quiet: true }).catch(
+      await executeShellCommand(shellCommands.images, { quiet: true }).catch(
         errorHandler
       )
     } else {
-      await executeShellCommand(commands[type], { quiet: true }).catch(
+      await executeShellCommand(shellCommands[type], { quiet: true }).catch(
         errorHandler
       )
     }
@@ -52,6 +52,6 @@ const build = {
 }
 
 module.exports = {
-  commands,
-  build
+  shellCommands,
+  command
 }

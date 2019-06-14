@@ -1,6 +1,7 @@
 {
-  "name": "@yuanqing/q",
   "private": true,
+  "name": "@yuanqing/q",
+  "version": "0.0.0",
   "bin": {
     "q": "src/cli.js"
   },

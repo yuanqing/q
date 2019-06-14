@@ -1,6 +1,6 @@
 const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
-const executeShellCommands = require('../utilities/execute-shell-commands')
+const executeShellCommand = require('../utilities/execute-shell-command')
 const log = require('../utilities/log')
 
 const commands = {
@@ -32,12 +32,19 @@ const build = {
   handler: async function ({ type }) {
     log.info('Building…')
     if (typeof type === 'undefined') {
-      await executeShellCommands([commands.html, commands.images]).catch(
+      await executeShellCommand(commands.html, { quiet: true }).catch(
         errorHandler
       )
-      await executeShellCommands([commands.css]).catch(errorHandler)
+      await executeShellCommand(commands.css, { quiet: true }).catch(
+        errorHandler
+      )
+      await executeShellCommand(commands.images, { quiet: true }).catch(
+        errorHandler
+      )
     } else {
-      await executeShellCommands([commands[type]]).catch(errorHandler)
+      await executeShellCommand(commands[type], { quiet: true }).catch(
+        errorHandler
+      )
     }
     log.success('Built')
     return Promise.resolve()

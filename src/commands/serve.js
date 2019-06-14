@@ -1,10 +1,10 @@
 const constants = require('../utilities/constants')
 const errorHandler = require('../utilities/error-handler')
-const executeShellCommands = require('../utilities/execute-shell-commands')
+const executeShellCommand = require('../utilities/execute-shell-command')
 const log = require('../utilities/log')
 
 const commands = [
-  `http-server ${constants.outputDirectoryPath}`,
+  `http-server ${constants.outputDirectoryPath} --silent`,
   'open-cli http://0.0.0.0:8080'
 ]
 
@@ -12,8 +12,11 @@ const serve = {
   command: 'serve',
   handler: async function () {
     log.info('Serving…')
-    await executeShellCommands(commands).catch(errorHandler)
-    return Promise.resolve()
+    return Promise.all(
+      commands.map(function (command) {
+        return executeShellCommand(command).catch(errorHandler)
+      })
+    )
   }
 }
 

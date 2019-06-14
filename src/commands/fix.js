@@ -1,5 +1,5 @@
 const errorHandler = require('../utilities/error-handler')
-const executeShellCommands = require('../utilities/execute-shell-commands')
+const executeShellCommand = require('../utilities/execute-shell-command')
 const log = require('../utilities/log')
 
 const commands = {
@@ -18,11 +18,10 @@ const fix = {
   handler: async function ({ type }) {
     log.info('Fixing…')
     if (typeof type === 'undefined') {
-      await executeShellCommands([commands.css, commands.html]).catch(
-        errorHandler
-      )
+      await executeShellCommand(commands.css).catch(errorHandler)
+      await executeShellCommand(commands.html).catch(errorHandler)
     } else {
-      await executeShellCommands([commands[type]]).catch(errorHandler)
+      await executeShellCommand(commands[type]).catch(errorHandler)
     }
     log.success('Fixed')
     return Promise.resolve()

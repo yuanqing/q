@@ -1,5 +1,5 @@
 module.exports = {
-  buildDirectoryPath: 'build',
+  outputDirectoryPath: 'build',
   css: {
     inputGlob: 'src/css/**/*.css',
     inputFilePath: 'src/css/style.css',

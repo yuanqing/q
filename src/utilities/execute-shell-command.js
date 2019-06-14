@@ -1,16 +1,14 @@
 const execa = require('execa')
 
-function executeShellCommands (commands) {
-  return Promise.all(commands.map(executeShellCommand))
-}
-
-function executeShellCommand (command) {
+function executeShellCommand (command, options = {}) {
   return new Promise(function (resolve, reject) {
     const childProcess = execa.shell(command, {
       env: { FORCE_COLOR: true }
     })
-    childProcess.stdout.pipe(process.stdout)
-    childProcess.stderr.pipe(process.stderr)
+    if (options.quiet !== true) {
+      childProcess.stdout.pipe(process.stdout)
+      childProcess.stderr.pipe(process.stderr)
+    }
     childProcess.on('exit', function (code) {
       if (code !== 0) {
         // eslint-disable-next-line prefer-promise-reject-errors
@@ -22,4 +20,4 @@ function executeShellCommand (command) {
   })
 }
 
-module.exports = executeShellCommands
+module.exports = executeShellCommand

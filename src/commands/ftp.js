@@ -30,23 +30,27 @@ const ftp = {
     })
   },
   handler: async function ({ host, user, password, directory }) {
-    log.info('Uploading…')
-    const connection = new VinylFtp({
-      host,
-      user,
-      password,
-      parallel: 10,
-      log: console.log
-    })
-    vinylFs
-      .src([`${constants.outputDirectoryPath}/**`], {
-        base: `./${constants.outputDirectoryPath}`,
-        buffer: false
+    return new Promise(function(resolve) {
+      log.info('Uploading…')
+      const connection = new VinylFtp({
+        host,
+        user,
+        password,
+        parallel: 10,
+        log: console.log
       })
-      .pipe(connection.dest(directory))
-      .on('error', errorHandler)
-    log.success('Uploaded')
-    return Promise.resolve()
+      vinylFs
+        .src([`${constants.outputDirectoryPath}/**`], {
+          base: `./${constants.outputDirectoryPath}`,
+          buffer: false
+        })
+        .pipe(connection.dest(directory))
+        .on('error', errorHandler)
+        .on('end', function() {
+          log.success('Uploaded')
+          resolve()
+        })
+    })
   }
 }
 

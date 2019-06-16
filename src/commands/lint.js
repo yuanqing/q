@@ -1,22 +1,33 @@
 const path = require('path')
 
-const constants = require('../utilities/constants')
-const errorHandler = require('../utilities/error-handler')
-const executeShellCommand = require('../utilities/execute-shell-command')
-const log = require('../utilities/log')
+const constants = require('../constants')
+const executeShellCommands = require('../execute/execute-shell-commands')
 
 const stylelintrcPath = path.resolve(__dirname, '..', '.stylelintrc')
 const shellCommands = {
-  css: `stylelint '${constants.css.inputGlob}' --config ${stylelintrcPath}`
+  css: {
+    title: 'css',
+    command: `stylelint '${
+      constants.css.inputGlob
+    }' --config ${stylelintrcPath}`
+  }
 }
 
 const command = {
-  command: 'lint',
-  handler: async function () {
-    log.info('Linting')
-    await executeShellCommand(shellCommands.css).catch(errorHandler)
-    log.success('Linted')
-    return Promise.resolve()
+  command: 'lint [types..]',
+  builder: function (yargs) {
+    yargs.positional('types', {
+      type: 'array',
+      choices: ['css'],
+      default: ['css']
+    })
+  },
+  handler: async function ({ types }) {
+    return executeShellCommands(
+      types.map(function (type) {
+        return shellCommands[type]
+      })
+    )
   }
 }
 

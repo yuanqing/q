@@ -1,56 +1,60 @@
 const chokidar = require('chokidar')
+const execa = require('execa')
 
-const shellCommands = require('./build').shellCommands
-const constants = require('../utilities/constants')
-const errorHandler = require('../utilities/error-handler')
-const executeShellCommand = require('../utilities/execute-shell-command')
-const log = require('../utilities/log')
+const buildShellCommands = require('./build').shellCommands
+const constants = require('../constants')
+const executeFunctions = require('../execute/execute-functions')
 
-const specification = {
+const shellCommands = {
   css: {
+    title: 'css',
     glob: [constants.css.inputGlob, constants.html.inputGlob],
-    shellCommand: shellCommands.css
+    shellCommand: buildShellCommands.css.command
   },
   html: {
+    title: 'html',
     glob: [constants.css.inputGlob, constants.html.inputGlob],
-    shellCommand: shellCommands.html
+    shellCommand: buildShellCommands.html.command
   },
   images: {
+    title: 'images',
     glob: [constants.images.inputGlob],
-    shellCommand: shellCommands.images,
-    options: {
-      quiet: true
-    }
+    shellCommand: buildShellCommands.images.command
   }
 }
 
-function executeWatch ({ glob, shellCommand, options }) {
-  async function build () {
-    await executeShellCommand(shellCommand, options).catch(errorHandler)
-  }
-  const watcher = chokidar.watch(glob)
-  watcher.on('ready', build)
-  watcher.on('change', build)
+function watch (glob, shellCommand) {
+  return new Promise(function () {
+    const watcher = chokidar.watch(glob)
+    function build () {
+      execa.shell(shellCommand)
+    }
+    watcher.on('ready', build)
+    watcher.on('change', build)
+  })
 }
 
 const command = {
-  command: 'watch [type]',
+  command: 'watch [types..]',
   builder: function (yargs) {
-    yargs.positional('type', {
-      type: 'string',
-      choices: ['css', 'html', 'images']
+    yargs.positional('types', {
+      type: 'array',
+      choices: ['css', 'html', 'images'],
+      default: ['css', 'html', 'images']
     })
   },
-  handler: async function ({ type }) {
-    log.info('Watching...')
-    if (typeof type === 'undefined') {
-      executeWatch(specification.css)
-      executeWatch(specification.html)
-      executeWatch(specification.images)
-    } else {
-      executeWatch(specification[type])
-    }
-    return Promise.resolve()
+  handler: async function ({ types }) {
+    return executeFunctions(
+      types.map(function (type) {
+        const { title, glob, shellCommand } = shellCommands[type]
+        return {
+          title,
+          task: function () {
+            return watch(glob, shellCommand)
+          }
+        }
+      })
+    )
   }
 }
 

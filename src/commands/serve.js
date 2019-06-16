@@ -1,12 +1,18 @@
-const constants = require('../utilities/constants')
-const errorHandler = require('../utilities/error-handler')
-const executeShellCommand = require('../utilities/execute-shell-command')
-const log = require('../utilities/log')
+const constants = require('../constants')
+const executeShellCommands = require('../execute/execute-shell-commands')
 
-const shellCommands = {
-  serve: `sirv start --dev --port ${constants.servePort} ${constants.outputDirectoryPath}`,
-  open: `open-cli http://0.0.0.0:${constants.servePort}`
-}
+const shellCommands = [
+  {
+    title: 'open',
+    command: `open-cli http://0.0.0.0:${constants.servePort}`
+  },
+  {
+    title: 'serve',
+    command: `sirv start --dev --port ${constants.servePort} ${
+      constants.outputDirectoryPath
+    }`
+  }
+]
 
 const command = {
   command: 'serve',
@@ -17,13 +23,10 @@ const command = {
     })
   },
   handler: async function ({ open }) {
-    log.info('Serving...')
-    return Promise.all(
-      [
-        executeShellCommand(shellCommands.serve).catch(errorHandler),
-        open && executeShellCommand(shellCommands.open).catch(errorHandler)
-      ].filter(Boolean)
-    )
+    if (open) {
+      return executeShellCommands(shellCommands)
+    }
+    return executeShellCommands([shellCommands[0]])
   }
 }
 

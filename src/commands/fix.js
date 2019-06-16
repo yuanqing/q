@@ -1,30 +1,31 @@
-const errorHandler = require('../utilities/error-handler')
-const executeShellCommand = require('../utilities/execute-shell-command')
-const log = require('../utilities/log')
+const executeShellCommands = require('../execute/execute-shell-commands')
 
 const shellCommands = {
-  css: `prettier --write 'src/**/*.css'`,
-  html: `prettier --write 'src/**/*.html'`
+  css: {
+    title: 'css',
+    command: `prettier --write 'src/**/*.css'`
+  },
+  html: {
+    title: 'html',
+    command: `prettier --write 'src/**/*.html'`
+  }
 }
 
 const command = {
-  command: 'fix [type]',
+  command: 'fix [types..]',
   builder: function (yargs) {
-    yargs.positional('type', {
-      type: 'string',
-      choices: ['css', 'html']
+    yargs.positional('types', {
+      type: 'array',
+      choices: ['css', 'html'],
+      default: ['css', 'html']
     })
   },
-  handler: async function ({ type }) {
-    log.info('Fixing...')
-    if (typeof type === 'undefined') {
-      await executeShellCommand(shellCommands.css).catch(errorHandler)
-      await executeShellCommand(shellCommands.html).catch(errorHandler)
-    } else {
-      await executeShellCommand(shellCommands[type]).catch(errorHandler)
-    }
-    log.success('Fixed')
-    return Promise.resolve()
+  handler: async function ({ types }) {
+    return executeShellCommands(
+      types.map(function (type) {
+        return shellCommands[type]
+      })
+    )
   }
 }
 

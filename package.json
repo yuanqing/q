@@ -29,6 +29,7 @@
     "execa": "^1.0.0",
     "html-minifier": "^4.0.0",
     "imagemin-cli": "^4.0.1",
+    "listr": "^0.14.3",
     "open-cli": "^5.0.0",
     "postcss-cli": "^6.1.2",
     "prettier": "^1.17.1",

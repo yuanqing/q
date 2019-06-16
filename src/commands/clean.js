@@ -14,7 +14,7 @@ const shellCommands = [
 const command = {
   command: 'clean',
   handler: async function () {
-    log.info('Cleaning…')
+    log.info('Cleaning...')
     await Promise.all(
       shellCommands.map(function (shellCommand) {
         return executeShellCommand(shellCommand).catch(errorHandler)

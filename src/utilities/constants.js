@@ -1,5 +1,6 @@
 module.exports = {
   outputDirectoryPath: 'build',
+  servePort: 4242,
   css: {
     inputGlob: 'src/css/**/*.css',
     inputFilePath: 'src/css/style.css',

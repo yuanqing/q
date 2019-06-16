@@ -42,7 +42,7 @@ const command = {
     })
   },
   handler: async function ({ type }) {
-    log.info('Watching…')
+    log.info('Watching...')
     if (typeof type === 'undefined') {
       executeWatch(specification.css)
       executeWatch(specification.html)

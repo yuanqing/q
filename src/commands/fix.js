@@ -16,7 +16,7 @@ const command = {
     })
   },
   handler: async function ({ type }) {
-    log.info('Fixing…')
+    log.info('Fixing...')
     if (typeof type === 'undefined') {
       await executeShellCommand(shellCommands.css).catch(errorHandler)
       await executeShellCommand(shellCommands.html).catch(errorHandler)

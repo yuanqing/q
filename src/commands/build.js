@@ -30,7 +30,7 @@ const command = {
     })
   },
   handler: async function ({ type }) {
-    log.info('Building…')
+    log.info('Building...')
     if (typeof type === 'undefined') {
       await executeShellCommand(shellCommands.html, { quiet: true }).catch(
         errorHandler

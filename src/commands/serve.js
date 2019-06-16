@@ -4,8 +4,8 @@ const executeShellCommand = require('../utilities/execute-shell-command')
 const log = require('../utilities/log')
 
 const shellCommands = {
-  serve: `http-server ${constants.outputDirectoryPath} --silent`,
-  open: 'open-cli http://0.0.0.0:8080'
+  serve: `sirv start --dev --port ${constants.servePort} ${constants.outputDirectoryPath}`,
+  open: `open-cli http://0.0.0.0:${constants.servePort}`
 }
 
 const command = {
@@ -17,7 +17,7 @@ const command = {
     })
   },
   handler: async function ({ open }) {
-    log.info('Serving…')
+    log.info('Serving...')
     return Promise.all(
       [
         executeShellCommand(shellCommands.serve).catch(errorHandler),

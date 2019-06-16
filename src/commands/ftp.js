@@ -31,7 +31,7 @@ const command = {
   },
   handler: async function ({ host, user, password, directory }) {
     return new Promise(function (resolve) {
-      log.info('Uploading…')
+      log.info('Uploading...')
       const connection = new VinylFtp({
         host,
         user,

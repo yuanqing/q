@@ -12,6 +12,7 @@ yargs
   .command(require('./commands/serve').command)
   .command(require('./commands/watch').command)
   .demandCommand()
+  .strict()
   .help()
   .version()
   .parse()

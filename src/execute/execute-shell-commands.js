@@ -12,7 +12,7 @@ async function executeShellCommands (commands) {
   })
   return new Listr(tasks, { concurrent: true, exitOnError: false })
     .run()
-    .catch(function () {
+    .catch(function (error) {
       console.error(error)
       process.exit(1)
     })

@@ -16,6 +16,7 @@ const shellCommands = [
 
 const command = {
   command: 'clean',
+  describe: 'Delete the `build` directory and other artefacts',
   handler: async function () {
     return executeShellCommands(shellCommands)
   }

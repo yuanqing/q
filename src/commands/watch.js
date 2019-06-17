@@ -3,18 +3,18 @@ const execa = require('execa')
 
 const buildShellCommands = require('./build').shellCommands
 const constants = require('../constants')
-const executeFunctions = require('../execute/execute-functions')
+const executeTasks = require('../execute/execute-tasks')
 
 const shellCommands = {
-  css: {
-    title: 'css',
-    glob: [constants.css.inputGlob, constants.html.inputGlob],
-    shellCommand: buildShellCommands.css.command
-  },
   html: {
     title: 'html',
     glob: [constants.css.inputGlob, constants.html.inputGlob],
     shellCommand: buildShellCommands.html.command
+  },
+  css: {
+    title: 'css',
+    glob: [constants.css.inputGlob, constants.html.inputGlob],
+    shellCommand: buildShellCommands.css.command
   },
   images: {
     title: 'images',
@@ -36,15 +36,16 @@ function watch (glob, shellCommand) {
 
 const command = {
   command: 'watch [types..]',
+  describe: 'Watch and rebuild HTML, CSS and images on changes',
   builder: function (yargs) {
     yargs.positional('types', {
       type: 'array',
-      choices: ['css', 'html', 'images'],
-      default: ['css', 'html', 'images']
+      choices: ['html', 'css', 'images'],
+      default: ['html', 'css', 'images']
     })
   },
   handler: async function ({ types }) {
-    return executeFunctions(
+    return executeTasks(
       types.map(function (type) {
         const { title, glob, shellCommand } = shellCommands[type]
         return {

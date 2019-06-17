@@ -2,7 +2,7 @@ const vinylFs = require('vinyl-fs')
 const VinylFtp = require('vinyl-ftp')
 
 const constants = require('../constants')
-const executeFunctions = require('../execute/execute-functions')
+const executeTasks = require('../execute/execute-tasks')
 
 function ftpUpload ({ host, user, password, directory }) {
   return new Promise(function (resolve, reject) {
@@ -25,6 +25,7 @@ function ftpUpload ({ host, user, password, directory }) {
 
 const command = {
   command: 'ftp',
+  describe: 'Upload the `build` directory',
   builder: function (yargs) {
     yargs.option('host', {
       alias: ['h'],
@@ -48,7 +49,7 @@ const command = {
     })
   },
   handler: async function ({ host, user, password, directory }) {
-    return executeFunctions([
+    return executeTasks([
       {
         title: 'ftp',
         task: function () {

@@ -16,6 +16,7 @@ const shellCommands = [
 
 const command = {
   command: 'serve',
+  describe: 'Serve the `build` directory',
   builder: function (yargs) {
     yargs.option('open', {
       alias: ['o'],

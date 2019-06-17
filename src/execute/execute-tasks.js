@@ -1,6 +1,6 @@
 const Listr = require('listr')
 
-async function executeFunctions (functions) {
+async function executeTasks (functions) {
   return new Listr(functions, { concurrent: true, exitOnError: false })
     .run()
     .catch(function (error) {
@@ -9,4 +9,4 @@ async function executeFunctions (functions) {
     })
 }
 
-module.exports = executeFunctions
+module.exports = executeTasks

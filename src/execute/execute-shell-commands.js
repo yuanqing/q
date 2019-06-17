@@ -1,5 +1,6 @@
 const execa = require('execa')
-const Listr = require('listr')
+
+const executeTasks = require('./execute-tasks')
 
 async function executeShellCommands (commands) {
   const tasks = commands.map(function ({ title, command }) {
@@ -10,12 +11,7 @@ async function executeShellCommands (commands) {
       }
     }
   })
-  return new Listr(tasks, { concurrent: true, exitOnError: false })
-    .run()
-    .catch(function (error) {
-      console.error(error)
-      process.exit(1)
-    })
+  return executeTasks(tasks)
 }
 
 module.exports = executeShellCommands

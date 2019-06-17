@@ -15,6 +15,7 @@ const shellCommands = {
 
 const command = {
   command: 'lint [types..]',
+  describe: 'Lint CSS',
   builder: function (yargs) {
     yargs.positional('types', {
       type: 'array',

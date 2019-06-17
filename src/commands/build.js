@@ -2,6 +2,12 @@ const constants = require('../constants')
 const executeShellCommands = require('../execute/execute-shell-commands')
 
 const shellCommands = {
+  html: {
+    title: 'html',
+    command: `html-minifier --input-dir src --file-ext html --output-dir ${
+      constants.outputDirectoryPath
+    } --collapse-whitespace --minify-css --minify-js --remove-comments --remove-redundant-attributes --remove-tag-whitespace`
+  },
   css: {
     title: 'css',
     command: `mkdir -p build/css && tachyons ${constants.css.inputFilePath} > ${
@@ -14,12 +20,6 @@ const shellCommands = {
       constants.css.outputFilePath
     } --output ${constants.css.outputFilePath}`
   },
-  html: {
-    title: 'html',
-    command: `html-minifier --input-dir src --file-ext html --output-dir ${
-      constants.outputDirectoryPath
-    } --collapse-whitespace --minify-css --minify-js --remove-comments --remove-redundant-attributes --remove-tag-whitespace`
-  },
   images: {
     title: 'images',
     command: `imagemin '${constants.images.inputGlob}' --out-dir ${
@@ -30,11 +30,12 @@ const shellCommands = {
 
 const command = {
   command: 'build [types..]',
+  describe: 'Build HTML, CSS, images',
   builder: function (yargs) {
     yargs.positional('types', {
       type: 'array',
-      choices: ['css', 'html', 'images'],
-      default: ['css', 'html', 'images']
+      choices: ['html', 'css', 'images'],
+      default: ['html', 'css', 'images']
     })
   },
   handler: function ({ types }) {

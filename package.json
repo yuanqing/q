@@ -1,7 +1,7 @@
 {
   "name": "@yuanqing/q",
   "version": "0.0.0",
-  "description": "A CLI to make lightweight, vanilla HTML/CSS websites",
+  "description": "An opinionated CLI for creating lightweight, vanilla HTML/CSS websites",
   "keywords": [
     "cli",
     "css",

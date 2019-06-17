@@ -17,8 +17,8 @@ const command = {
   builder: function (yargs) {
     yargs.positional('types', {
       type: 'array',
-      choices: ['html', 'css', ],
-      default: ['html', 'css', ]
+      choices: ['html', 'css'],
+      default: ['html', 'css']
     })
   },
   handler: async function ({ types }) {

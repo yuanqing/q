@@ -27,7 +27,7 @@ const command = {
     if (open) {
       return executeShellCommands(shellCommands)
     }
-    return executeShellCommands([shellCommands[0]])
+    return executeShellCommands([shellCommands[1]])
   }
 }
 

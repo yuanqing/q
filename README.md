@@ -1,4 +1,4 @@
-# @yuanqing/q [![npm Version](https://badgen.net/npm/v/@yuanqing/q)](https://www.npmjs.org/package/@yuanqing/q)
+# @yuanqing/q [![npm Version](https://img.shields.io/npm/v/@yuanqing/q.svg)](https://www.npmjs.org/package/@yuanqing/q)
 
 > An opinionated CLI for creating lightweight, vanilla HTML/CSS websites
 

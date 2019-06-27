@@ -30,11 +30,13 @@ function minifyHtml (html) {
 
 async function buildHtml () {
   const filePaths = await globby([constants.html.inputGlob])
-  return Promise.all(filePaths.map(async function(filePath) {
-    const html = await renderHtml(filePath)
-    const minified = minifyHtml(html)
-    console.log(minified)
-  }))
+  return Promise.all(
+    filePaths.map(async function (filePath) {
+      const html = await renderHtml(filePath)
+      const minified = minifyHtml(html)
+      console.log(minified)
+    })
+  )
 }
 
 const shellCommands = {

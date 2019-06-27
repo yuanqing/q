@@ -7,9 +7,7 @@ const stylelintrcPath = path.resolve(__dirname, '..', '.stylelintrc')
 const shellCommands = {
   css: {
     title: 'css',
-    task: `stylelint '${
-      constants.css.inputGlob
-    }' --config ${stylelintrcPath}`
+    task: `stylelint '${constants.css.inputGlob}' --config ${stylelintrcPath}`
   }
 }
 

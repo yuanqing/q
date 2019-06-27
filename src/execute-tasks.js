@@ -2,7 +2,7 @@ const execa = require('execa')
 const Listr = require('listr')
 
 async function executeTasks (tasks) {
-  const t = tasks.map(function({title, task}) {
+  const t = tasks.map(function ({ title, task }) {
     if (typeof task === 'string') {
       return {
         title,
@@ -11,7 +11,7 @@ async function executeTasks (tasks) {
         }
       }
     }
-    return {title, task}
+    return { title, task }
   })
   return new Listr(t, { concurrent: true, exitOnError: false })
     .run()

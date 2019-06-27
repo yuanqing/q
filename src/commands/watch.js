@@ -23,9 +23,13 @@ const shellCommands = {
 function watch (glob, task) {
   return new Promise(function () {
     const watcher = chokidar.watch(glob)
-    const build = typeof task === 'string' ? function () {
-      execa.shell(task)
-    } : task
+    // prettier-ignore
+    const build =
+      typeof task === 'string'
+        ? function () {
+          execa.shell(task)
+        }
+        : task
     watcher.on('ready', build)
     watcher.on('change', build)
   })

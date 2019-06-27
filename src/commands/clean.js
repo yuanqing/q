@@ -1,11 +1,11 @@
 const constants = require('../constants')
-const executeShellCommands = require('../execute/execute-shell-commands')
+const executeTasks = require('../execute-tasks')
 
 const shellCommands = [
   {
     title: 'clean',
-    command: [
-      `rm -rf ${constants.buildDirectoryPath}`,
+    task: [
+      `rm -rf ${constants.outputDirectoryPath}`,
       `find . -name .DS_Store -delete`,
       `find . -name .vscode -delete`,
       `find . -name *.js.map -delete`,
@@ -18,7 +18,7 @@ const command = {
   command: 'clean',
   describe: 'Delete the `build` directory and other artefacts',
   handler: async function () {
-    return executeShellCommands(shellCommands)
+    return executeTasks(shellCommands)
   }
 }
 

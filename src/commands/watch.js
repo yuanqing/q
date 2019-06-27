@@ -3,32 +3,29 @@ const execa = require('execa')
 
 const buildShellCommands = require('./build').shellCommands
 const constants = require('../constants')
-const executeTasks = require('../execute/execute-tasks')
+const executeTasks = require('../execute-tasks')
 
 const shellCommands = {
   html: {
-    title: 'html',
     glob: [constants.css.inputGlob, constants.html.inputGlob],
-    shellCommand: buildShellCommands.html.command
+    task: buildShellCommands.html.task
   },
   css: {
-    title: 'css',
     glob: [constants.css.inputGlob, constants.html.inputGlob],
-    shellCommand: buildShellCommands.css.command
+    task: buildShellCommands.css.task
   },
   images: {
-    title: 'images',
     glob: [constants.images.inputGlob],
-    shellCommand: buildShellCommands.images.command
+    task: buildShellCommands.images.task
   }
 }
 
-function watch (glob, shellCommand) {
+function watch (glob, task) {
   return new Promise(function () {
     const watcher = chokidar.watch(glob)
-    function build () {
-      execa.shell(shellCommand)
-    }
+    const build = typeof task === 'string' ? function () {
+      execa.shell(task)
+    } : task
     watcher.on('ready', build)
     watcher.on('change', build)
   })
@@ -47,11 +44,11 @@ const command = {
   handler: async function ({ types }) {
     return executeTasks(
       types.map(function (type) {
-        const { title, glob, shellCommand } = shellCommands[type]
+        const { glob, task } = shellCommands[type]
         return {
-          title,
+          title: type,
           task: function () {
-            return watch(glob, shellCommand)
+            return watch(glob, task)
           }
         }
       })

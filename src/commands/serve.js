@@ -1,14 +1,14 @@
 const constants = require('../constants')
-const executeShellCommands = require('../execute/execute-shell-commands')
+const executeTasks = require('../execute-tasks')
 
 const shellCommands = [
   {
     title: 'open',
-    command: `open-cli http://0.0.0.0:${constants.servePort}`
+    task: `open-cli http://0.0.0.0:${constants.servePort}`
   },
   {
     title: 'serve',
-    command: `sirv start --dev --port ${constants.servePort} ${
+    task: `sirv start --dev --port ${constants.servePort} ${
       constants.outputDirectoryPath
     }`
   }
@@ -25,9 +25,9 @@ const command = {
   },
   handler: async function ({ open }) {
     if (open) {
-      return executeShellCommands(shellCommands)
+      return executeTasks(shellCommands)
     }
-    return executeShellCommands([shellCommands[1]])
+    return executeTasks([shellCommands[1]])
   }
 }
 

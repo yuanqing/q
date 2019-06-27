@@ -2,7 +2,7 @@ const vinylFs = require('vinyl-fs')
 const VinylFtp = require('vinyl-ftp')
 
 const constants = require('../constants')
-const executeTasks = require('../execute/execute-tasks')
+const executeTasks = require('../execute-tasks')
 
 function ftpUpload ({ host, user, password, directory }) {
   return new Promise(function (resolve, reject) {

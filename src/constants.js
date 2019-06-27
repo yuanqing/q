@@ -1,18 +1,24 @@
+const sourceDirectoryPath = 'src'
+const mediaDirectoryPath = 'media'
+const outputDirectoryPath = 'build'
+
 module.exports = {
-  outputDirectoryPath: 'build',
+  sourceDirectoryPath,
+  mediaDirectoryPath,
+  outputDirectoryPath,
   servePort: 4242,
   css: {
-    inputGlob: 'src/css/**/*.css',
-    inputFilePath: 'src/css/style.css',
-    outputDirectoryPath: 'build/css',
-    outputFilePath: 'build/css/style.css'
+    inputGlob: `${sourceDirectoryPath}/css/**/*.css`,
+    inputFilePath: `${sourceDirectoryPath}/css/style.css`,
+    outputDirectoryPath: `${outputDirectoryPath}/css`,
+    outputFilePath: `${outputDirectoryPath}/css/style.css`
   },
   html: {
-    inputGlob: 'src/**/*.html',
-    outputGlob: 'build/**/*.html'
+    inputGlob: `${sourceDirectoryPath}/**/*.html`,
+    outputGlob: `${outputDirectoryPath}/**/*.html`
   },
   images: {
-    inputGlob: 'media/**/*.{gif,jpg,png}',
-    outputDirectoryPath: 'build/media'
+    inputGlob: `${mediaDirectoryPath}/**/*.{gif,jpg,png}`,
+    outputDirectoryPath: `${outputDirectoryPath}/media`
   }
 }

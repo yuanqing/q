@@ -1,16 +1,50 @@
+const ejs = require('ejs')
+const htmlMinifier = require('html-minifier')
+const globby = require('globby')
+
 const constants = require('../constants')
-const executeShellCommands = require('../execute/execute-shell-commands')
+const executeTasks = require('../execute-tasks')
+
+function renderHtml (filePath) {
+  return new Promise(function (resolve, reject) {
+    ejs.renderFile(filePath, {}, {}, function (error, result) {
+      if (error) {
+        reject(error)
+        return
+      }
+      resolve(result)
+    })
+  })
+}
+
+function minifyHtml (html) {
+  return htmlMinifier.minify(html, {
+    collapseWhitespace: true,
+    minifyCSS: true,
+    minifyJS: true,
+    removeComments: true,
+    removeRedundantAttributes: true,
+    removeTagWhitespace: true
+  })
+}
+
+async function buildHtml () {
+  const filePaths = await globby([constants.html.inputGlob])
+  return Promise.all(filePaths.map(async function(filePath) {
+    const html = await renderHtml(filePath)
+    const minified = minifyHtml(html)
+    console.log(minified)
+  }))
+}
 
 const shellCommands = {
   html: {
     title: 'html',
-    command: `html-minifier --input-dir src --file-ext html --output-dir ${
-      constants.outputDirectoryPath
-    } --collapse-whitespace --minify-css --minify-js --remove-comments --remove-redundant-attributes --remove-tag-whitespace`
+    task: buildHtml
   },
   css: {
     title: 'css',
-    command: `mkdir -p build/css && tachyons ${constants.css.inputFilePath} > ${
+    task: `mkdir -p build/css && tachyons ${constants.css.inputFilePath} > ${
       constants.css.outputFilePath
     } && purgecss --css ${constants.css.outputFilePath} --content '${
       constants.html.outputGlob
@@ -22,7 +56,7 @@ const shellCommands = {
   },
   images: {
     title: 'images',
-    command: `imagemin '${constants.images.inputGlob}' --out-dir ${
+    task: `imagemin '${constants.images.inputGlob}' --out-dir ${
       constants.images.outputDirectoryPath
     }`
   }
@@ -39,7 +73,7 @@ const command = {
     })
   },
   handler: function ({ types }) {
-    return executeShellCommands(
+    return executeTasks(
       types.map(function (type) {
         return shellCommands[type]
       })

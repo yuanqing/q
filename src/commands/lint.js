@@ -1,13 +1,13 @@
 const path = require('path')
 
 const constants = require('../constants')
-const executeShellCommands = require('../execute/execute-shell-commands')
+const executeTasks = require('../execute-tasks')
 
 const stylelintrcPath = path.resolve(__dirname, '..', '.stylelintrc')
 const shellCommands = {
   css: {
     title: 'css',
-    command: `stylelint '${
+    task: `stylelint '${
       constants.css.inputGlob
     }' --config ${stylelintrcPath}`
   }
@@ -24,7 +24,7 @@ const command = {
     })
   },
   handler: async function ({ types }) {
-    return executeShellCommands(
+    return executeTasks(
       types.map(function (type) {
         return shellCommands[type]
       })

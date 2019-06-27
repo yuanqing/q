@@ -1,13 +1,13 @@
-const executeShellCommands = require('../execute/execute-shell-commands')
+const executeTasks = require('../execute-tasks')
 
 const shellCommands = {
   html: {
     title: 'html',
-    command: `prettier --write 'src/**/*.html'`
+    task: `prettier --write 'src/**/*.html'`
   },
   css: {
     title: 'css',
-    command: `prettier --write 'src/**/*.css'`
+    task: `prettier --write 'src/**/*.css'`
   }
 }
 
@@ -22,7 +22,7 @@ const command = {
     })
   },
   handler: async function ({ types }) {
-    return executeShellCommands(
+    return executeTasks(
       types.map(function (type) {
         return shellCommands[type]
       })

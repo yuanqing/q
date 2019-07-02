@@ -1,5 +1,5 @@
 const ejs = require('ejs')
-const fs = require('fs')
+const fs = require('fs-extra')
 const globby = require('globby')
 const htmlMinifier = require('html-minifier')
 
@@ -48,15 +48,7 @@ function minify (html) {
 }
 
 function write (outputFilePath, html) {
-  return new Promise(function (resolve, reject) {
-    fs.writeFile(outputFilePath, html, function (error) {
-      if (error) {
-        reject(error)
-        return
-      }
-      resolve()
-    })
-  })
+  return fs.outputFile(outputFilePath, html)
 }
 
 module.exports = function () {

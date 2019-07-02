@@ -4,11 +4,11 @@ const watch = require('./watch')
 
 const glob = [constants.html.inputGlob]
 
-module.exports = function () {
+module.exports = function (ignoreGlob) {
   return {
     title: 'html',
     task: function () {
-      return watch(glob, build().task)
+      return watch(glob, build(ignoreGlob).task)
     }
   }
 }

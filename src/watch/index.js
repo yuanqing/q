@@ -18,11 +18,16 @@ module.exports = {
       choices: ['html', 'css', 'images'],
       default: ['html', 'css', 'images']
     })
+    yargs.option('ignore', {
+      alias: ['i'],
+      type: 'string',
+      default: 'src/**/_*'
+    })
   },
-  handler: async function ({ types }) {
+  handler: function ({ types, ignore }) {
     return execute(
       types.map(function (type) {
-        return tasks[type]()
+        return tasks[type](ignore)
       })
     )
   }

@@ -9,8 +9,8 @@ const sourceDirectoryRegularExpression = new RegExp(
   `^${constants.sourceDirectoryPath}`
 )
 
-async function buildHtml () {
-  const filePaths = await globby([constants.html.inputGlob])
+async function buildHtml (ignoreGlob) {
+  const filePaths = await globby([constants.html.inputGlob, `!${ignoreGlob}`])
   return Promise.all(
     filePaths.map(async function (filePath) {
       const html = await render(filePath)
@@ -51,9 +51,11 @@ function write (outputFilePath, html) {
   return fs.outputFile(outputFilePath, html)
 }
 
-module.exports = function () {
+module.exports = function (ignoreGlob) {
   return {
     title: 'html',
-    task: buildHtml
+    task: function () {
+      return buildHtml(ignoreGlob)
+    }
   }
 }

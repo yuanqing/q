@@ -6,7 +6,10 @@ module.exports = function () {
   return {
     title: 'static',
     task: function () {
-      return fs.copy(constants.staticDirectoryPath, constants.outputDirectoryPath)
+      return fs.copy(
+        constants.staticDirectoryPath,
+        constants.outputDirectoryPath
+      )
     }
   }
 }

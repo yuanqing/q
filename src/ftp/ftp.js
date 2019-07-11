@@ -14,7 +14,8 @@ function ftpUpload ({ host, user, password, directory }) {
     vinylFs
       .src([`${constants.outputDirectoryPath}/**`], {
         base: `./${constants.outputDirectoryPath}`,
-        buffer: false
+        buffer: false,
+        dot: true
       })
       .pipe(connection.dest(directory))
       .on('error', reject)
